@@ -10,7 +10,7 @@ LOAD = :load
 ADD  = :add
 MUL  = :mul
 NEG  = :neg
-JMP  = :jmp
+# JMP  = :jmp
 RET  = :ret
 # PUSH = :push
 # POP  = :pop
@@ -19,7 +19,7 @@ INSTRUCTIONS = [
   ADD,
   MUL,
   NEG,
-  JMP,
+  # JMP,
   RET,
 ]
 
@@ -38,7 +38,7 @@ def run_program prog, arg, limit
     when ADD then reg[b] += reg[a]
     when MUL then reg[b] *= reg[a]
     when NEG then reg[a] *= -1
-    when JMP then pc += a
+    # when JMP then pc += a
     when RET then return reg[a]
     end
   }
@@ -56,7 +56,7 @@ def random_instruction
   when ADD  then [ADD,  rand(NUM_REG), rand(NUM_REG)]
   when MUL  then [MUL,  rand(NUM_REG), rand(NUM_REG)]
   when NEG  then [NEG,  rand(NUM_REG)]
-  when JMP  then [JMP,  signed_rand(10)]
+  # when JMP  then [JMP,  signed_rand(10)]
   when RET  then [RET,  rand(NUM_REG)]
   end
 end
@@ -86,8 +86,8 @@ def mutate_program prog
         end
       when NEG, RET
         instr[1] = rand(NUM_REG)
-      when JMP
-        instr[1] += signed_rand 5
+      # when JMP
+      #   instr[1] += signed_rand 5
       end
     end
   }
