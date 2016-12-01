@@ -87,12 +87,13 @@ solution = run_evolution 1000,
                          lambda {|prog|
   10.times.map {|n|
     result = run_program(prog, n, 30)
-    result ? (n ** 2 + 3 * n - 1 - result).abs : 9999999999
+    result ? (n * (n - 1) - result).abs : 9999999999
   }.reduce(&:+)
 }
 
 if solution
   pp solution
+  File.write 'last-solution', solution.inspect
 else
   puts "Failed"
 end
