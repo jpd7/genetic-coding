@@ -27,7 +27,7 @@ def mutate_program prog
   10.times {
     case rand 10
     when 0 then prog.delete_at rand(prog.size)
-    when 1, 2, 3 then prog.insert rand(prog.size + 1), random_instruction
+    when 1...4 then prog.insert rand(prog.size + 1), random_instruction
     when 4...10
       instr = prog.sample
       next unless instr
@@ -57,14 +57,9 @@ def run_evolution num_generations,
                   generate_individual,
                   mutate_individual,
                   score_individual
-  new_individual = lambda {|i|
-    individual = generate_individual.call
-    score = score_individual.call individual
-    [score, individual]
-  }
-  population = Array.new(population_size, &new_individual).sort_by {|x| x[0]}
+  population = []
   num_generations.times {
-    return population[0][1] if population[0][0] == 0
+    return population[0][1] if population.size > 0 and population[0][0] == 0
     children = population.flat_map {|parent_score, parent|
       Array.new(children_per_parent) {
         child = mutate_individual.call parent
@@ -72,7 +67,11 @@ def run_evolution num_generations,
         [child_score, child]
       }
     }
-    random = Array.new(population_size / 12, new_individual)
+    random = Array.new(population_size) {
+      individual = generate_individual.call
+      score = score_individual.call individual
+      [score, individual]
+    }
     population = (population + children + random).sort_by {|x| x[0]}[0...population_size]
   }
   nil
