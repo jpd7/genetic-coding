@@ -76,6 +76,10 @@ def run_evolution num_generations,
   nil
 end
 
+def goal n
+  5 * n
+end
+
 solution = run_evolution 1000,
                          10,
                          3,
@@ -88,7 +92,7 @@ solution = run_evolution 1000,
                          lambda {|prog|
   10.times.map {|n|
     result = run_program(prog, n, 30)
-    result ? (3 * n - result).abs : 9999999999
+    result ? (goal(n) - result).abs : 9999999999
   }.reduce(&:+)
 }
 
