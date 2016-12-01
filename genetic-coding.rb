@@ -67,10 +67,10 @@ end
 
 def mutate_program prog
   10.times {
-    case rand 4
+    case rand 10
     when 0 then prog.delete_at rand(prog.size)
-    when 1 then prog.insert rand(prog.size + 1), random_instruction
-    when 2, 3
+    when 1, 2, 3 then prog.insert rand(prog.size + 1), random_instruction
+    when 4...10
       instr = prog.sample
       next unless instr
       case instr[0]
@@ -105,33 +105,37 @@ def run_evolution num_generations,
     [score, individual]
   }.sort_by {|x| x[0]}
   num_generations.times {
-    pp population[0]; puts
     return population[0][1] if population[0][0] == 0
-    population = (population + population.flat_map {|parent_score, parent|
-                    Array.new(children_per_parent) {
-                      child = mutate_individual.call parent
-                      child_score = score_individual.call child
-                      [child_score, child]
-                    }
-                  }).sort_by {|x| x[0]}[0...population_size]
+    children = population.flat_map {|parent_score, parent|
+      Array.new(children_per_parent) {
+        child = mutate_individual.call parent
+        child_score = score_individual.call child
+        [child_score, child]
+      }
+    }
+    population = (population + children).sort_by {|x| x[0]}[0...population_size]
   }
   nil
 end
 
-solution = run_evolution 10,
+solution = run_evolution 1000,
                          20,
                          2,
-                         lambda {random_program 20},
-                         lambda {|prog| mutate_program prog.map(&:dup)},
+                         lambda {random_program 5},
                          lambda {|prog|
-  20.times.map {|n|
+  copy = prog.map(&:dup)
+  mutate_program copy
+  copy
+},
+                         lambda {|prog|
+  100.times.map {|n|
     result = run_program(prog, n, 30)
-    result ? (n * n + 5 - result).abs : 9999999999
+    result ? (n * (n - 1) - result).abs : 9999999999
   }.reduce(&:+)
 }
 
 if solution
-  p solution
+  pp solution
 else
   puts "Failed"
 end
