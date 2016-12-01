@@ -72,6 +72,7 @@ def mutate_program prog
     when 1 then prog.insert rand(prog.size + 1), random_instruction
     when 2, 3
       instr = prog.sample
+      next unless instr
       case instr[0]
       when LOAD
         case rand 2
