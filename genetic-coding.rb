@@ -2,7 +2,7 @@
 
 require 'pp'
 
-NUM_REG = 8
+NUM_REG = 2
 
 # OP A B stores in B
 
@@ -14,8 +14,16 @@ JMP  = :jmp
 RET  = :ret
 # PUSH = :push
 # POP  = :pop
+INSTRUCTIONS = [
+  LOAD,
+  ADD,
+  MUL,
+  NEG,
+  JMP,
+  RET,
+]
 
-def run_program prog, arg, limit=1000
+def run_program prog, arg, limit=200
   reg = Array.new(NUM_REG, 0)
   pc = 0
 
@@ -40,27 +48,22 @@ end
 
 def random_program length=50
   Array.new(length) {
-    case rand 6
-    when 0 then [LOAD, rand(100), rand(NUM_REG)]
-    when 1 then [ADD, rand(NUM_REG), rand(NUM_REG)]
-    when 2 then [MUL, rand(NUM_REG), rand(NUM_REG)]
-    when 3 then [NEG, rand(NUM_REG)]
-    when 4 then [JMP, -10 + rand(20)]
-    when 5 then [RET, rand(NUM_REG)]
+    case INSTRUCTIONS.sample
+    when LOAD then [LOAD, rand(2),       rand(NUM_REG)]
+    when ADD  then [ADD,  rand(NUM_REG), rand(NUM_REG)]
+    when MUL  then [MUL,  rand(NUM_REG), rand(NUM_REG)]
+    when NEG  then [NEG,  rand(NUM_REG)]
+    when JMP  then [JMP,  -10 + rand(20)]
+    when RET  then [RET,  rand(NUM_REG)]
     end
   }
 end
 
-# p run_program [
-#     [LOAD, 3, 0],
-#     [MUL, 0, 0],
-#     [RET,  0],
-# ]
-
-loop {
-  prog = random_program 2
-  if 100.times.all? {|n| run_program(prog, n) == n * n}
+10000.times {
+  prog = random_program 4
+  if 100.times.all? {|n| run_program(prog, n) == n * n + 1}
     pp prog
     exit
   end
 }
+puts "Failed"
