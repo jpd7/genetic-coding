@@ -1,9 +1,10 @@
 #!/usr/bin/ruby
 
 require 'pp'
+require 'json'
 require './cpu.rb'
 
-prog = eval File.read(ARGV[0])
+prog = JSON.parse File.read(ARGV[0])
 arg = ARGV[1].to_i
 limit = 1000
 result = run_program prog, arg, limit

@@ -2,14 +2,14 @@ NUM_REG = 4
 
 # OP A B stores in B
 
-LOAD = :load
-ADD  = :add
-MUL  = :mul
-NEG  = :neg
-# JMP  = :jmp
-RET  = :ret
-# PUSH = :push
-# POP  = :pop
+LOAD = 'load'
+ADD  = 'add'
+MUL  = 'mul'
+NEG  = 'neg'
+# JMP  = 'jmp'
+RET  = 'ret'
+# PUSH = 'push'
+# POP  = 'pop'
 INSTRUCTIONS = [
   LOAD,
   ADD,

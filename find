@@ -1,6 +1,7 @@
 #!/usr/bin/ruby
 
 require 'pp'
+require 'json'
 require './cpu.rb'
 
 def signed_rand max
@@ -87,13 +88,14 @@ solution = run_evolution 1000,
                          lambda {|prog|
   10.times.map {|n|
     result = run_program(prog, n, 30)
-    result ? (n * (n - 1) - result).abs : 9999999999
+    result ? (3 * n - result).abs : 9999999999
   }.reduce(&:+)
 }
 
 if solution
-  pp solution
-  File.write 'last-solution', solution.inspect
+  json = JSON.generate(solution).gsub("],", "],\n ")
+  puts json
+  File.write 'last-solution', json
 else
   puts "Failed"
 end
