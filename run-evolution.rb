@@ -1,50 +1,7 @@
 #!/usr/bin/ruby
 
 require 'pp'
-
-NUM_REG = 4
-
-# OP A B stores in B
-
-LOAD = :load
-ADD  = :add
-MUL  = :mul
-NEG  = :neg
-# JMP  = :jmp
-RET  = :ret
-# PUSH = :push
-# POP  = :pop
-INSTRUCTIONS = [
-  LOAD,
-  ADD,
-  MUL,
-  NEG,
-  # JMP,
-  RET,
-]
-
-def run_program prog, arg, limit
-  reg = Array.new(NUM_REG, 0)
-  pc = 0
-
-  reg[0] = arg
-
-  limit.times {
-    return nil if pc < 0 or pc >= prog.size
-    op, a, b = *prog[pc]
-    pc += 1
-    case op
-    when LOAD then reg[b] = a
-    when ADD then reg[b] += reg[a]
-    when MUL then reg[b] *= reg[a]
-    when NEG then reg[a] *= -1
-    # when JMP then pc += a
-    when RET then return reg[a]
-    end
-  }
-
-  nil
-end
+require './cpu.rb'
 
 def signed_rand max
   rand(2 * max - 1) - max + 1
@@ -130,7 +87,7 @@ solution = run_evolution 1000,
                          lambda {|prog|
   10.times.map {|n|
     result = run_program(prog, n, 30)
-    result ? (n * (n - 1) - result).abs : 9999999999
+    result ? (n ** 2 + 3 * n - 1 - result).abs : 9999999999
   }.reduce(&:+)
 }
 
