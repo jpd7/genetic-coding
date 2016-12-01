@@ -57,11 +57,12 @@ def run_evolution num_generations,
                   generate_individual,
                   mutate_individual,
                   score_individual
-  population = Array.new(population_size) {
+  new_individual = lambda {|i|
     individual = generate_individual.call
     score = score_individual.call individual
     [score, individual]
-  }.sort_by {|x| x[0]}
+  }
+  population = Array.new(population_size, &new_individual).sort_by {|x| x[0]}
   num_generations.times {
     return population[0][1] if population[0][0] == 0
     children = population.flat_map {|parent_score, parent|
@@ -71,7 +72,8 @@ def run_evolution num_generations,
         [child_score, child]
       }
     }
-    population = (population + children).sort_by {|x| x[0]}[0...population_size]
+    random = Array.new(population_size / 12, new_individual)
+    population = (population + children + random).sort_by {|x| x[0]}[0...population_size]
   }
   nil
 end
