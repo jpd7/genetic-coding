@@ -2,7 +2,7 @@
 
 require 'pp'
 
-NUM_REG = 2
+NUM_REG = 4
 
 # OP A B stores in B
 
@@ -23,7 +23,7 @@ INSTRUCTIONS = [
   RET,
 ]
 
-def run_program prog, arg, limit=200
+def run_program prog, arg, limit
   reg = Array.new(NUM_REG, 0)
   pc = 0
 
@@ -61,7 +61,7 @@ def random_instruction
   end
 end
 
-def random_program length=50
+def random_program length
   Array.new(length) {random_instruction}
 end
 
@@ -118,14 +118,14 @@ def run_evolution num_generations,
 end
 
 solution = run_evolution 10,
-                         50,
+                         20,
                          2,
                          lambda {random_program 20},
                          lambda {|prog| mutate_program prog.map(&:dup)},
                          lambda {|prog|
-  100.times.map {|n|
-    result = run_program(prog, n)
-    result ? (n * n + 1 - result).abs : 9999999999
+  20.times.map {|n|
+    result = run_program(prog, n, 30)
+    result ? (n * n + 5 - result).abs : 9999999999
   }.reduce(&:+)
 }
 
