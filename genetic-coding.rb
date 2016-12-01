@@ -119,8 +119,8 @@ def run_evolution num_generations,
 end
 
 solution = run_evolution 1000,
-                         20,
-                         2,
+                         10,
+                         3,
                          lambda {random_program 5},
                          lambda {|prog|
   copy = prog.map(&:dup)
@@ -128,7 +128,7 @@ solution = run_evolution 1000,
   copy
 },
                          lambda {|prog|
-  100.times.map {|n|
+  10.times.map {|n|
     result = run_program(prog, n, 30)
     result ? (n * (n - 1) - result).abs : 9999999999
   }.reduce(&:+)
