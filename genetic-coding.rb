@@ -15,9 +15,11 @@ RET  = :ret
 # PUSH = :push
 # POP  = :pop
 
-def run_program prog, limit=1000
+def run_program prog, arg, limit=1000
   reg = Array.new(NUM_REG, 0)
   pc = 0
+
+  reg[0] = arg
 
   limit.times {
     return nil if pc < 0 or pc >= prog.size
@@ -28,7 +30,7 @@ def run_program prog, limit=1000
     when ADD then reg[b] += reg[a]
     when MUL then reg[b] *= reg[a]
     when NEG then reg[a] *= -1
-    when JMP then pc += reg[a]
+    when JMP then pc += a
     when RET then return reg[a]
     end
   }
@@ -37,7 +39,7 @@ def run_program prog, limit=1000
 end
 
 def random_program length=50
-  Array.new(50) {
+  Array.new(length) {
     case rand 6
     when 0 then [LOAD, rand(100), rand(NUM_REG)]
     when 1 then [ADD, rand(NUM_REG), rand(NUM_REG)]
@@ -55,6 +57,10 @@ end
 #     [RET,  0],
 # ]
 
-prog = random_program
-pp prog
-p run_program(prog)
+loop {
+  prog = random_program 2
+  if 100.times.all? {|n| run_program(prog, n) == n * n}
+    pp prog
+    exit
+  end
+}
