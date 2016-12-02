@@ -7,6 +7,8 @@ NUM_REG = 8
 #  * more output operations
 #  * bitwise operations
 #  * some sort of stack?
+#  * some sort of heap?
+#  * pointers
 #  * floating point numbers
 
 LOAD = 'load'
