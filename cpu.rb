@@ -1,5 +1,3 @@
-NUM_REG = 8
-
 # OP A B means A = A `OP` B
 
 # TODO:
@@ -10,6 +8,9 @@ NUM_REG = 8
 #  * some sort of heap?
 #  * pointers
 #  * floating point numbers
+#  * rewrite in something faster?
+
+NUM_REG = 8
 
 LOAD = 'load'
 MOV  = 'mov'
@@ -52,21 +53,30 @@ def run_program prog, arg, limit
     op, a, b = *prog[pc]
     pc += 1
     case op
-    when LOAD then reg[a] = b
-    when MOV then reg[a] = reg[b]
-    when ADD then reg[a] += reg[b]
-    when MUL then reg[a] *= reg[b]
+    when LOAD
+      reg[a] = b
+    when MOV
+      reg[a] = reg[b]
+    when ADD
+      reg[a] += reg[b]
+    when MUL
+      reg[a] *= reg[b]
     when DIV
       return nil if reg[b] == 0
       reg[a] /= reg[b]
     when MOD
       return nil if reg[b] == 0
       reg[a] %= reg[b]
-    when CMP then cr = compare reg[a], reg[b]
-    when JMP then pc += a
-    when JIF then pc += a if b.include? cr
-    when HALT then return reg[7]
-    else bad_instruction op
+    when CMP
+      cr = compare reg[a], reg[b]
+    when JMP
+      pc += a
+    when JIF
+      pc += a if b.include? cr
+    when HALT
+      return reg[7]
+    else
+      bad_instruction op
     end
   }
 
