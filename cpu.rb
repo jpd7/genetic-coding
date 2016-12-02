@@ -2,6 +2,12 @@ NUM_REG = 4
 
 # OP A B stores in B
 
+# TODO:
+#  * DIV
+#  * SUB
+#  * conditional jumps
+#  * more output operations
+
 LOAD = 'load'
 ADD  = 'add'
 MUL  = 'mul'
