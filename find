@@ -23,7 +23,7 @@ def random_instruction
   when CMP  then [CMP,  rand(NUM_REG), rand(NUM_REG)]
   when JMP  then [JMP,  signed_rand(15)]
   when JIF  then [JMP,  signed_rand(15), COMPARISON_TYPES.sample]
-  when DONE then [DONE]
+  when HALT then [HALT]
   else bad_instruction type
   end
 end
@@ -58,7 +58,7 @@ def mutate_program prog
         when 0 then instr[1] += signed_rand 8
         when 1 then instr[2] = COMPARISON_TYPES.sample
         end
-      when DONE
+      when HALT
       else
         bad_instruction instr[0]
       end

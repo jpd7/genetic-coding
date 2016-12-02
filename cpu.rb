@@ -18,10 +18,10 @@ MOD  = 'mod'
 CMP  = 'cmp'
 JMP  = 'jmp'
 JIF  = 'jif'
-DONE = 'done'
+HALT = 'halt'
 
 INSTRUCTIONS = [
-  LOAD, MOV, ADD, MUL, DIV, MOD, CMP, JMP, JIF, DONE
+  LOAD, MOV, ADD, MUL, DIV, MOD, CMP, JMP, JIF, HALT
 ]
 
 COMPARISON_TYPES = ['g', 'e', 'eg', 'l', 'lg', 'le']
@@ -63,7 +63,7 @@ def run_program prog, arg, limit
     when CMP then cr = compare reg[a], reg[b]
     when JMP then pc += a
     when JIF then pc += a if b.include? cr
-    when DONE then return reg[7]
+    when HALT then return reg[7]
     else bad_instruction op
     end
   }
