@@ -13,13 +13,14 @@ LOAD = 'load'
 ADD  = 'add'
 MUL  = 'mul'
 DIV  = 'div'
+MOD  = 'mod'
 CMP  = 'cmp'
 JMP  = 'jmp'
 JIF  = 'jif'
 DONE = 'done'
 
 INSTRUCTIONS = [
-  LOAD, ADD, MUL, DIV, CMP, JMP, JIF, DONE
+  LOAD, ADD, MUL, DIV, MOD, CMP, JMP, JIF, DONE
 ]
 
 COMPARISON_TYPES = ['g', 'e', 'eg', 'l', 'lg', 'le']
@@ -50,6 +51,9 @@ def run_program prog, arg, limit
     when DIV
       return nil if reg[b] == 0
       reg[a] /= reg[b]
+    when MOD
+      return nil if reg[b] == 0
+      reg[a] %= reg[b]
     when CMP then cr = compare reg[a], reg[b]
     when JMP then pc += a
     when JIF then pc += a if b.include? cr
