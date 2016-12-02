@@ -13,11 +13,14 @@ end
 
 def random_instruction
   case INSTRUCTIONS.sample
-  when LOAD then [LOAD, signed_rand(5), rand(NUM_REG)]
-  when ADD  then [ADD,  rand(NUM_REG),  rand(NUM_REG)]
-  when MUL  then [MUL,  rand(NUM_REG),  rand(NUM_REG)]
-  # when JMP  then [JMP,  signed_rand(10)]
-  when RET  then [RET,  rand(NUM_REG)]
+  when LOAD then [LOAD, rand(NUM_REG), signed_rand(5)]
+  when ADD  then [ADD,  rand(NUM_REG), rand(NUM_REG)]
+  when MUL  then [MUL,  rand(NUM_REG), rand(NUM_REG)]
+  when DIV  then [DIV,  rand(NUM_REG), rand(NUM_REG)]
+  when CMP  then [CMP,  rand(NUM_REG), rand(NUM_REG)]
+  when JMP  then [JMP,  signed_rand(15)]
+  when JIF  then [JMP,  signed_rand(15), COMPARISON_TYPES.sample]
+  when DONE then [DONE]
   end
 end
 
@@ -36,18 +39,22 @@ def mutate_program prog
       case instr[0]
       when LOAD
         case rand 2
-        when 0 then instr[1] += signed_rand 5
-        when 1 then instr[2] = rand(NUM_REG)
+        when 1 then instr[1] = rand(NUM_REG)
+        when 0 then instr[2] += signed_rand 5
         end
-      when ADD, MUL
+      when ADD, MUL, DIV, CMP
         case rand 2
         when 0 then instr[1] = rand(NUM_REG)
         when 1 then instr[2] = rand(NUM_REG)
         end
-      when RET
-        instr[1] = rand(NUM_REG)
-      # when JMP
-      #   instr[1] += signed_rand 5
+      when JMP
+        instr[1] += signed_rand 8
+      when JIF
+        case rand 2
+        when 0 then instr[1] += signed_rand 8
+        when 1 then instr[2] = COMPARISON_TYPES.sample
+        end
+      # There's no way to mutate a DONE instruction
       end
     end
   }
