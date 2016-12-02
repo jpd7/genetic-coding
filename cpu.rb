@@ -7,6 +7,7 @@ NUM_REG = 8
 #  * SUB
 #  * conditional jumps
 #  * more output operations
+#  * bitwise operations
 
 LOAD = 'load'
 ADD  = 'add'
