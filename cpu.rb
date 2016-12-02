@@ -1,4 +1,4 @@
-NUM_REG = 4
+NUM_REG = 8
 
 # OP A B stores in B
 
