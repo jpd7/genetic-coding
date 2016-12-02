@@ -10,6 +10,7 @@ NUM_REG = 8
 #  * floating point numbers
 
 LOAD = 'load'
+MOV  = 'mov'
 ADD  = 'add'
 MUL  = 'mul'
 DIV  = 'div'
@@ -20,7 +21,7 @@ JIF  = 'jif'
 DONE = 'done'
 
 INSTRUCTIONS = [
-  LOAD, ADD, MUL, DIV, MOD, CMP, JMP, JIF, DONE
+  LOAD, MOV, ADD, MUL, DIV, MOD, CMP, JMP, JIF, DONE
 ]
 
 COMPARISON_TYPES = ['g', 'e', 'eg', 'l', 'lg', 'le']
@@ -50,6 +51,7 @@ def run_program prog, arg, limit
     pc += 1
     case op
     when LOAD then reg[a] = b
+    when MOV then reg[a] = reg[b]
     when ADD then reg[a] += reg[b]
     when MUL then reg[a] *= reg[b]
     when DIV
