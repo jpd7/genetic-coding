@@ -115,7 +115,7 @@ solution = run_evolution 2000,
 if solution
   json = JSON.generate(solution).gsub("],", "],\n ")
   puts json
-  File.write 'last-solution', json
+  File.write 'a.out', json
 else
   puts "Failed"
 end
