@@ -82,7 +82,7 @@ def goal n
 end
 
 solution = run_evolution 1000,
-                         10,
+                         50,
                          3,
                          lambda {random_program 5},
                          lambda {|prog|
