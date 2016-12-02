@@ -10,9 +10,9 @@ end
 
 def random_instruction
   case INSTRUCTIONS.sample
-  when LOAD then [LOAD, rand(2),       rand(NUM_REG)]
-  when ADD  then [ADD,  rand(NUM_REG), rand(NUM_REG)]
-  when MUL  then [MUL,  rand(NUM_REG), rand(NUM_REG)]
+  when LOAD then [LOAD, signed_rand(5), rand(NUM_REG)]
+  when ADD  then [ADD,  rand(NUM_REG),  rand(NUM_REG)]
+  when MUL  then [MUL,  rand(NUM_REG),  rand(NUM_REG)]
   when NEG  then [NEG,  rand(NUM_REG)]
   # when JMP  then [JMP,  signed_rand(10)]
   when RET  then [RET,  rand(NUM_REG)]
