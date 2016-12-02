@@ -4,6 +4,9 @@ require 'pp'
 require 'json'
 require './cpu.rb'
 
+# TODO:
+#  * After finding a solution, try to remove some of the dead instructions
+
 def signed_rand max
   rand(2 * max - 1) - max + 1
 end
