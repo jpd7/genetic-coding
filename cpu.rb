@@ -25,6 +25,10 @@ INSTRUCTIONS = [
 
 COMPARISON_TYPES = ['g', 'e', 'eg', 'l', 'lg', 'le']
 
+def bad_instruction type
+  raise "Unrecognized instruction type: " + type
+end
+
 def compare a, b
   case
   when a < b then 'l'
@@ -58,6 +62,7 @@ def run_program prog, arg, limit
     when JMP then pc += a
     when JIF then pc += a if b.include? cr
     when DONE then return reg[7]
+    else bad_instruction op
     end
   }
 
