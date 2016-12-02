@@ -9,6 +9,7 @@ require './cpu.rb'
 #  * Why does it sometimes run for a long time without finding
 #    anything? Are new random solutions being edged out by slightly
 #    lower-scoring bug incorrect older solutions?
+#  * Add some form of crossover?
 
 def signed_rand max
   rand(2 * max - 1) - max + 1
@@ -25,7 +26,7 @@ def random_instruction
   when MOD  then [MOD,  rand(NUM_REG), rand(NUM_REG)]
   when CMP  then [CMP,  rand(NUM_REG), rand(NUM_REG)]
   when JMP  then [JMP,  signed_rand(15)]
-  when JIF  then [JMP,  signed_rand(15), COMPARISON_TYPES.sample]
+  when JIF  then [JIF,  signed_rand(15), COMPARISON_TYPES.sample]
   when HALT then [HALT]
   else bad_instruction type
   end
@@ -37,10 +38,10 @@ end
 
 def mutate_program prog
   10.times {
-    case rand 10
-    when 0 then prog.delete_at rand(prog.size)
-    when 1...4 then prog.insert rand(prog.size + 1), random_instruction
-    when 4...10
+    case rand 100
+    when  0...26 then prog.delete_at rand(prog.size)
+    when 26...52 then prog.insert rand(prog.size + 1), random_instruction
+    when 52...100
       instr = prog.sample
       next unless instr
       case instr[0]
@@ -99,9 +100,9 @@ def goal n
   5 * n
 end
 
-solution = run_evolution 2000,
-                         70,
-                         4,
+solution = run_evolution 5000,
+                         100,
+                         10,
                          lambda {random_program 5},
                          lambda {|prog|
   copy = prog.map(&:dup)
