@@ -16,7 +16,6 @@ def random_instruction
   when LOAD then [LOAD, signed_rand(5), rand(NUM_REG)]
   when ADD  then [ADD,  rand(NUM_REG),  rand(NUM_REG)]
   when MUL  then [MUL,  rand(NUM_REG),  rand(NUM_REG)]
-  when NEG  then [NEG,  rand(NUM_REG)]
   # when JMP  then [JMP,  signed_rand(10)]
   when RET  then [RET,  rand(NUM_REG)]
   end
@@ -45,7 +44,7 @@ def mutate_program prog
         when 0 then instr[1] = rand(NUM_REG)
         when 1 then instr[2] = rand(NUM_REG)
         end
-      when NEG, RET
+      when RET
         instr[1] = rand(NUM_REG)
       # when JMP
       #   instr[1] += signed_rand 5

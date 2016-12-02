@@ -13,7 +13,6 @@ NUM_REG = 8
 LOAD = 'load'
 ADD  = 'add'
 MUL  = 'mul'
-NEG  = 'neg'
 # JMP  = 'jmp'
 RET  = 'ret'
 # PUSH = 'push'
@@ -22,7 +21,6 @@ INSTRUCTIONS = [
   LOAD,
   ADD,
   MUL,
-  NEG,
   # JMP,
   RET,
 ]
@@ -41,7 +39,6 @@ def run_program prog, arg, limit
     when LOAD then reg[b] = a
     when ADD then reg[b] += reg[a]
     when MUL then reg[b] *= reg[a]
-    when NEG then reg[a] *= -1
     # when JMP then pc += a
     when RET then return reg[a]
     end
