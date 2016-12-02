@@ -6,6 +6,7 @@ require './cpu.rb'
 
 # TODO:
 #  * After finding a solution, try to remove some of the dead instructions
+#  * Penalize length of program somehow?
 #  * Why does it sometimes run for a long time without finding
 #    anything? Are new random solutions being edged out by slightly
 #    lower-scoring bug incorrect older solutions?
