@@ -96,9 +96,9 @@ def goal n
   5 * n
 end
 
-solution = run_evolution 1000,
-                         50,
-                         3,
+solution = run_evolution 2000,
+                         70,
+                         4,
                          lambda {random_program 5},
                          lambda {|prog|
   copy = prog.map(&:dup)
