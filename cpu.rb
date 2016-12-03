@@ -11,6 +11,7 @@
 #  * rewrite in something faster?
 
 NUM_REG = 8
+CPU_MAX_INT = 1_000_000_000
 
 LOAD = 'load'
 MOV  = 'mov'
@@ -23,14 +24,22 @@ JMP  = 'jmp'
 JIF  = 'jif'
 HALT = 'halt'
 
-INSTRUCTIONS = [
-  LOAD, MOV, ADD, MUL, DIV, MOD, CMP, JMP, JIF, HALT
-]
+INSTRUCTIONS = [LOAD, MOV, ADD, MUL, DIV, MOD, CMP, JMP, JIF, HALT]
 
 COMPARISON_TYPES = ['g', 'e', 'eg', 'l', 'lg', 'le']
 
 def bad_instruction type
   raise "Unrecognized instruction type: " + type
+end
+
+def bound x
+  if x > CPU_MAX_INT
+    CPU_MAX_INT
+  elsif x < -CPU_MAX_INT
+    -CPU_MAX_INT
+  else
+    x
+  end
 end
 
 def compare a, b
@@ -58,9 +67,9 @@ def run_program prog, arg, limit
     when MOV
       reg[a] = reg[b]
     when ADD
-      reg[a] += reg[b]
+      reg[a] = bound reg[a] + reg[b]
     when MUL
-      reg[a] *= reg[b]
+      reg[a] = bound reg[a] * reg[b]
     when DIV
       return nil if reg[b] == 0
       reg[a] /= reg[b]
