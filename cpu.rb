@@ -50,7 +50,7 @@ def compare a, b
   end
 end
 
-def run_program prog, arg, limit
+def run_program prog, arg, limit, trace=nil
   reg = Array.new(NUM_REG, 0)
   pc = 0
   cr = ''
@@ -59,6 +59,7 @@ def run_program prog, arg, limit
 
   limit.times {
     return nil if pc < 0 or pc >= prog.size
+    trace << [pc, prog[pc], reg.dup] if trace
     op, a, b = *prog[pc]
     pc += 1
     case op

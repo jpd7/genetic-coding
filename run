@@ -4,8 +4,33 @@ require 'pp'
 require 'json'
 require './cpu.rb'
 
+def show_array xs
+  '[' + xs.map {|x|
+    if x.is_a? String and x.each_char.any? {|c| !'leg'.include? c}
+      sprintf("%6s", x.inspect)
+    else
+      sprintf("%4s", x.inspect)
+    end
+  }.join(', ') + ']'
+end
+
 prog = JSON.parse File.read(ARGV[0])
 arg = ARGV[1].to_i
 limit = 1_000_000
-result = run_program prog, arg, limit
+if ARGV.size > 2
+  trace = []
+else
+  trace = nil
+end
+
+result = run_program prog, arg, limit, trace
+
+if trace
+  trace.each {|entry|
+    pc, instr, reg = *entry
+    printf("%3d    %-23s   %s\n", pc, show_array(instr), show_array(reg))
+  }
+  puts
+end
+
 p result
