@@ -9,7 +9,7 @@ require './cpu.rb'
 #  * After finding a solution, try to remove some of the dead instructions
 #  * Actually that might mess up jif offsets. Replace instructions
 #    with explicit NOP instructions instead.
-#  * LABEL instruction? With a unique integer id?
+#  * LABEL instruction? With a unique integer id? Or go to the nth label?
 #  * Calculated GOTO (from register)
 #  * Pointers & RAM
 #  * Penalize length of program somehow?
@@ -19,6 +19,9 @@ require './cpu.rb'
 #  * Add some form of crossover?
 #  * May need a better scoring function to increase evolutionary
 #    pressure towards correct answers
+#  * manipulate AST instead of machine instructions
+#  * unlimited steps for ./run
+#  * fewer bork conditions; e.g. 0 / 0 == 0
 
 def signed_rand max
   rand(2 * max - 1) - max + 1
