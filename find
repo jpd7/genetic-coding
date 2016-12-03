@@ -5,7 +5,13 @@ require 'json'
 require './cpu.rb'
 
 # TODO:
+
 #  * After finding a solution, try to remove some of the dead instructions
+#  * Actually that might mess up jif offsets. Replace instructions
+#    with explicit NOP instructions instead.
+#  * LABEL instruction? With a unique integer id?
+#  * Calculated GOTO (from register)
+#  * Pointers & RAM
 #  * Penalize length of program somehow?
 #  * Why does it sometimes run for a long time without finding
 #    anything? Are new random solutions being edged out by slightly
