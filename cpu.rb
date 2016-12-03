@@ -59,7 +59,7 @@ def run_program prog, arg, limit, trace=nil
 
   limit.times {
     return nil if pc < 0 or pc >= prog.size
-    trace << [pc, prog[pc], reg.dup] if trace
+    trace << [pc, cr, prog[pc], reg.dup] if trace
     op, a, b = *prog[pc]
     pc += 1
     case op
